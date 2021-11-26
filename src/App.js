@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { sendCartData } from "./store/cart-slice";
+import { fetchCartData, sendCartData } from "./store/cart-actions";
 
 import Notification from "./components/UI/Notification";
 import Cart from "./components/Cart/Cart";
@@ -18,10 +18,11 @@ function App() {
   useEffect(() => {
     if (isFirstPageLoad) {
       isFirstPageLoad = false;
+      dispatch(fetchCartData());
       return;
     }
 
-    dispatch(sendCartData(cart));
+    if (cart.changed) dispatch(sendCartData(cart));
   }, [cart, dispatch]);
 
   return (
